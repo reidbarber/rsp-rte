@@ -1,4 +1,3 @@
-import React from 'react';
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
 import Editor from './Editor';
 import './App.css';

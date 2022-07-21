@@ -12,10 +12,13 @@ import {
   $isRangeSelection,
   $createParagraphNode,
   $getNodeByKey,
+  RangeSelection,
+  TextFormatType,
+  LexicalCommand,
+  ElementFormatType,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
-  $isParentElementRTL,
   $wrapLeafNodesInElements,
   $isAtNodeEnd,
 } from "@lexical/selection";
@@ -59,7 +62,7 @@ import TextParagraph from "@spectrum-icons/workflow/TextParagraph";
 
 const Low_Priority = 1;
 
-function getSelectedNode(selection) {
+function getSelectedNode(selection: RangeSelection) {
   const anchor = selection.anchor;
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
@@ -75,7 +78,7 @@ function getSelectedNode(selection) {
   }
 }
 
-const HISTORY_COMMANDS = {
+const HISTORY_COMMANDS: {[key: string]: LexicalCommand<void>} = {
   undo: UNDO_COMMAND,
   redo: REDO_COMMAND,
 };
@@ -85,11 +88,10 @@ export default function ToolbarPlugin() {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
-  const [selectedElementKey, setSelectedElementKey] = useState(null);
+  const [selectedElementKey, setSelectedElementKey] = useState<null | string>(null);
   let [selectedCodeLanguage, setSelectedCodeLanguage] = useState(
     new Set(['js'])
   );
-  let [selectedFormatOptions, setSelectedFormatOptions] = useState(new Set());
   let [selectedBlockType, setSelectedBlockType] = useState(
     new Set(["paragraph"])
   );
@@ -109,6 +111,9 @@ export default function ToolbarPlugin() {
     ],
     []
   );
+
+    let [selectedFormatOptions, setSelectedFormatOptions] = useState<any>(new Set());
+
 
   let alignmentOptions = useMemo(
     () => [
@@ -149,7 +154,7 @@ export default function ToolbarPlugin() {
           if ($isCodeNode(element)) {
             let nextLanguage = codeLanguageOptions.find(lang => lang.key === element.getLanguage()) || codeLanguageOptions.find(lang => lang.key === getDefaultCodeLanguage()) ;
             setSelectedCodeLanguage(
-              new Set([nextLanguage.key])
+              new Set([nextLanguage!.key])
             );
           }
         }
@@ -163,7 +168,7 @@ export default function ToolbarPlugin() {
       // Update text format selected state
       let nextSelectedOptions = new Set([
         ...formatOptions
-          .filter((format) => selection.hasFormat(format.key))
+          .filter((format) => selection.hasFormat(format.key as TextFormatType))
           .map((option) => option.key),
         ...(isLink ? ["link"] : []),
       ]);
@@ -252,17 +257,17 @@ export default function ToolbarPlugin() {
 
   const formatBulletList = useCallback(() => {
     if (blockType !== "ul") {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
   }, [blockType, editor]);
 
   const formatNumberedList = useCallback(() => {
     if (blockType !== "ol") {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND);
+      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND);
+      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
   }, [blockType, editor]);
 
@@ -356,7 +361,7 @@ export default function ToolbarPlugin() {
           ...(canUndo ? [] : ["undo"]),
           ...(canRedo ? [] : ["redo"]),
         ]}
-        onAction={(key) => editor.dispatchCommand(HISTORY_COMMANDS[key])}
+        onAction={(key) => editor.dispatchCommand(HISTORY_COMMANDS[key], undefined)}
       >
         <Item key="undo" textValue="Undo">
           <Undo />
@@ -383,8 +388,8 @@ export default function ToolbarPlugin() {
         buttonLabelBehavior="hide"
         onSelectionChange={(keys) => {
           let key = [...keys][0];
-          blockTypeOptions.find((option) => option.key === key).formatAction();
-          setSelectedBlockType(keys);
+          blockTypeOptions.find((option) => option.key === key)?.formatAction();
+          setSelectedBlockType(new Set([...key.toString()]));
         }}
         disallowEmptySelection
         maxWidth={100}
@@ -415,11 +420,11 @@ export default function ToolbarPlugin() {
               if (selectedElementKey !== null) {
                 const node = $getNodeByKey(selectedElementKey);
                 if ($isCodeNode(node)) {
-                  node.setLanguage([...keys][0]);
+                  node.setLanguage([...keys][0].toString());
                 }
               }
             });
-            setSelectedCodeLanguage(new Set([...keys][0]));
+            setSelectedCodeLanguage(new Set([...keys][0].toString()));
           }}
           disallowEmptySelection
         >
@@ -440,14 +445,14 @@ export default function ToolbarPlugin() {
             items={formatOptions}
             selectedKeys={selectedFormatOptions}
             onSelectionChange={(keys) => {
-              let pressedKeys = [
+              let pressedKey = [
                 ...[...keys].filter((key) => !selectedFormatOptions.has(key)),
-                ...[...selectedFormatOptions].filter((key) => !keys.has(key)),
-              ];
-              if (pressedKeys.includes("link")) {
+                ...[...selectedFormatOptions].filter((key) => !new Set([...keys]).has(key)),
+              ][0];
+              if (pressedKey === "link") {
                 insertLink();
               } else {
-                editor.dispatchCommand(FORMAT_TEXT_COMMAND, ...pressedKeys);
+                editor.dispatchCommand(FORMAT_TEXT_COMMAND, pressedKey);
               }
             }}
           >
@@ -474,7 +479,7 @@ export default function ToolbarPlugin() {
             density="compact"
             items={alignmentOptions}
             onSelectionChange={(keys) =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, ...keys)
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, [...keys][0].toString() as ElementFormatType)
             }
           >
             {(item) => (

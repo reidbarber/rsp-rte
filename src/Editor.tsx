@@ -20,7 +20,6 @@ import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import ExampleTheme from "./themes/ExampleTheme";
 
 import {View} from '@adobe/react-spectrum';
-import React from "react";
 
 const editorConfig = {
   namespace: 'rsp-rte',
