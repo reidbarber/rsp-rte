@@ -58,7 +58,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
     <LexicalComposer initialConfig={editorConfig}>
       <View padding="size-200" position="relative">
         <ToolbarPlugin isQuiet={isQuiet} />
-        <View position="relative">
+        <View position="relative" UNSAFE_className={`editor-inner ${isQuiet ? 'is-quiet' : ''}`}>
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={<Placeholder />}

@@ -36,7 +36,7 @@ function isIndentPermitted(maxDepth: number) {
 
   let totalDepth = 0;
 
-  for (const elementNode of elementNodesInSelection) {
+  for (const elementNode of elementNodesInSelection as any) {
     if ($isListNode(elementNode)) {
       totalDepth = Math.max($getListDepth(elementNode) + 1, totalDepth);
     } else if ($isListItemNode(elementNode)) {

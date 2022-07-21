@@ -5,7 +5,9 @@ import './App.css';
 function App() {
   return (
     <Provider theme={defaultTheme}>
+      <h1>React Spectrum + Lexical</h1>
       <RichTextEditor />
+      <span>Quiet variation:</span>
       <RichTextEditor isQuiet />
     </Provider>
   );

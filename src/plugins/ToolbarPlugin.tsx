@@ -485,7 +485,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             density="compact"
             items={alignmentOptions}
             onSelectionChange={(keys) =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, [...keys][0].toString() as ElementFormatType)
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, [...keys as any][0].toString() as ElementFormatType)
             }
           >
             {(item) => (

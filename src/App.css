@@ -44,6 +44,20 @@ h1 {
   text-align: right;
 }
 
+.editor-inner {
+  background-color: var(--spectrum-textfield-background-color,var(--spectrum-global-color-gray-50));
+  box-sizing: border-box;
+  border: var(--spectrum-textfield-border-size,var(--spectrum-alias-border-size-thin)) solid;
+  border-color: var(--spectrum-textfield-border-color,var(--spectrum-alias-border-color));
+  border-radius: var(--spectrum-textfield-border-radius,var(--spectrum-alias-border-radius-regular));
+  color: var(--spectrum-textfield-text-color,var(--spectrum-alias-text-color));
+}
+
+.editor-inner.is-quiet {
+  background-color: var(--spectrum-textfield-quiet-background-color,var(--spectrum-alias-background-color-transparent));
+  border: none;
+}
+
 .editor-input {
   min-height: 150px;
   resize: none;
