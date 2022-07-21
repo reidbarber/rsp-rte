@@ -46,11 +46,18 @@ function Placeholder() {
   return <div className="editor-placeholder">Enter some rich text...</div>;
 }
 
-export default function Editor() {
+// TODO: likely similar props to TextArea
+interface RichTextEditorProps {
+  /** Whether the input should be displayed with a quiet style. */
+  isQuiet?: boolean
+}
+
+export default function RichTextEditor(props: RichTextEditorProps) {
+  const {isQuiet} = props;
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <View padding="size-200" position="relative">
-        <ToolbarPlugin />
+        <ToolbarPlugin isQuiet={isQuiet} />
         <View position="relative">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}

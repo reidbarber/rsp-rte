@@ -1,11 +1,12 @@
 import { Provider, defaultTheme } from '@adobe/react-spectrum';
-import Editor from './Editor';
+import RichTextEditor from './RichTextEditor';
 import './App.css';
 
 function App() {
   return (
     <Provider theme={defaultTheme}>
-      <Editor />
+      <RichTextEditor />
+      <RichTextEditor isQuiet />
     </Provider>
   );
 }

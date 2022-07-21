@@ -83,7 +83,13 @@ const HISTORY_COMMANDS: {[key: string]: LexicalCommand<void>} = {
   redo: REDO_COMMAND,
 };
 
-export default function ToolbarPlugin() {
+interface ToolbarPluginProps {
+  /** Whether the toolbbar should be displayed with a quiet style. */
+  isQuiet?: boolean
+}
+
+export default function ToolbarPlugin(props: ToolbarPluginProps) {
+  const {isQuiet} = props;
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
@@ -354,7 +360,7 @@ export default function ToolbarPlugin() {
   return (
     <Flex marginTop="size-100" marginBottom="size-100">
       <ActionGroup
-        isQuiet
+        isQuiet={isQuiet}
         buttonLabelBehavior="hide"
         density="compact"
         disabledKeys={[
@@ -379,7 +385,7 @@ export default function ToolbarPlugin() {
         marginEnd="size-100"
       />
       <ActionGroup
-        isQuiet
+        isQuiet={isQuiet}
         aria-label="Block type"
         overflowMode="collapse"
         selectionMode="single"
@@ -409,7 +415,7 @@ export default function ToolbarPlugin() {
       />
       {blockType === "code" ? (
         <ActionGroup
-          isQuiet
+          isQuiet={isQuiet}
           aria-label="Code language"
           overflowMode="collapse"
           selectionMode="single"
@@ -437,7 +443,7 @@ export default function ToolbarPlugin() {
       ) : (
         <>
           <ActionGroup
-            isQuiet
+            isQuiet={isQuiet}
             aria-label="Format options"
             selectionMode="multiple"
             buttonLabelBehavior="hide"
@@ -470,7 +476,7 @@ export default function ToolbarPlugin() {
             marginEnd="size-100"
           />
           <ActionGroup
-            isQuiet
+            isQuiet={isQuiet}
             aria-label="Alignment options"
             selectionMode="single"
             disallowEmptySelection
