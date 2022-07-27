@@ -1,14 +1,16 @@
-import { Provider, defaultTheme } from '@adobe/react-spectrum';
+import { Provider, defaultTheme, View } from '@adobe/react-spectrum';
 import RichTextEditor from './RichTextEditor';
 import './App.css';
 
 function App() {
   return (
     <Provider theme={defaultTheme}>
-      <h1>React Spectrum + Lexical</h1>
-      <RichTextEditor />
-      <span>Quiet variation:</span>
-      <RichTextEditor isQuiet />
+       <View padding="size-500">
+        <h1>React Spectrum + Lexical</h1>
+        <RichTextEditor />
+        <h2>Quiet variation:</h2>
+        <RichTextEditor isQuiet />
+      </View>
     </Provider>
   );
 }
