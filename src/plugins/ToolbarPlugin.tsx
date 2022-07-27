@@ -395,7 +395,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
         onSelectionChange={(keys) => {
           let key = [...keys][0];
           blockTypeOptions.find((option) => option.key === key)?.formatAction();
-          setSelectedBlockType(new Set([...key.toString()]));
+          setSelectedBlockType(new Set([key.toString()]));
         }}
         disallowEmptySelection
         maxWidth={100}
