@@ -8,7 +8,7 @@ function App() {
        <View padding="size-500">
         <h1>React Spectrum + Lexical</h1>
         <RichTextEditor />
-        <h2>Quiet variation:</h2>
+        <h2>Quiet variant:</h2>
         <RichTextEditor isQuiet />
       </View>
     </Provider>
