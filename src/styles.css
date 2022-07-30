@@ -8,34 +8,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.other h2 {
-  font-size: 18px;
-  color: #444;
-  margin-bottom: 7px;
-}
-
-.other a {
-  color: #777;
-  text-decoration: underline;
-  font-size: 14px;
-}
-
-.other ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  color: #333;
-}
-
 .ltr {
   text-align: left;
 }
@@ -45,16 +17,32 @@ h1 {
 }
 
 .react-spectrum-RichTextEditor-inner {
-  background-color: var(--spectrum-textfield-background-color,var(--spectrum-global-color-gray-50));
+  background-color: var(
+    --spectrum-textfield-background-color,
+    var(--spectrum-global-color-gray-50)
+  );
   box-sizing: border-box;
-  border: var(--spectrum-textfield-border-size,var(--spectrum-alias-border-size-thin)) solid;
-  border-color: var(--spectrum-textfield-border-color,var(--spectrum-alias-border-color));
-  border-radius: var(--spectrum-textfield-border-radius,var(--spectrum-alias-border-radius-regular));
-  color: var(--spectrum-textfield-text-color,var(--spectrum-alias-text-color));
+  border: var(
+      --spectrum-textfield-border-size,
+      var(--spectrum-alias-border-size-thin)
+    )
+    solid;
+  border-color: var(
+    --spectrum-textfield-border-color,
+    var(--spectrum-alias-border-color)
+  );
+  border-radius: var(
+    --spectrum-textfield-border-radius,
+    var(--spectrum-alias-border-radius-regular)
+  );
+  color: var(--spectrum-textfield-text-color, var(--spectrum-alias-text-color));
 }
 
-.react-spectrum-RichTextEditor-inner.is-quiet {
-  background-color: var(--spectrum-textfield-quiet-background-color,var(--spectrum-alias-background-color-transparent));
+.react-spectrum-RichTextEditor-inner.react-spectrum-RichTextEditor-inner--quiet {
+  background-color: var(
+    --spectrum-textfield-quiet-background-color,
+    var(--spectrum-alias-background-color-transparent)
+  );
   border: none;
 }
 

@@ -1,6 +1,6 @@
 import { Provider, defaultTheme, View } from '@adobe/react-spectrum';
 import RichTextEditor from './RichTextEditor';
-import './App.css';
+import './styles.css';
 
 function App() {
   return (

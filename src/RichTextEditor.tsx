@@ -58,7 +58,7 @@ export default function RichTextEditor(props: RichTextEditorProps) {
     <LexicalComposer initialConfig={editorConfig}>
       <View padding="size-200" position="relative">
         <ToolbarPlugin isQuiet={isQuiet} />
-        <View position="relative" UNSAFE_className={`react-spectrum-RichTextEditor-inner ${isQuiet ? 'is-quiet' : ''}`}>
+        <View position="relative" UNSAFE_className={`react-spectrum-RichTextEditor-inner ${isQuiet ? 'react-spectrum-RichTextEditor-inner--quiet' : ''}`}>
           <RichTextPlugin
             contentEditable={<ContentEditable className="react-spectrum-RichTextEditor-input" />}
             placeholder={<Placeholder />}
