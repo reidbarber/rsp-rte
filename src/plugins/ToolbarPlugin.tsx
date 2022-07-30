@@ -18,10 +18,7 @@ import {
   ElementFormatType,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
-import {
-  $wrapLeafNodesInElements,
-  $isAtNodeEnd,
-} from "@lexical/selection";
+import { $wrapLeafNodesInElements, $isAtNodeEnd } from "@lexical/selection";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
   INSERT_ORDERED_LIST_COMMAND,
@@ -78,25 +75,27 @@ function getSelectedNode(selection: RangeSelection) {
   }
 }
 
-const HISTORY_COMMANDS: {[key: string]: LexicalCommand<void>} = {
+const HISTORY_COMMANDS: { [key: string]: LexicalCommand<void> } = {
   undo: UNDO_COMMAND,
   redo: REDO_COMMAND,
 };
 
 interface ToolbarPluginProps {
-  /** Whether the toolbbar should be displayed with a quiet style. */
-  isQuiet?: boolean
+  /** Whether the toolbar should be displayed with a quiet style. */
+  isQuiet?: boolean;
 }
 
 export default function ToolbarPlugin(props: ToolbarPluginProps) {
-  const {isQuiet} = props;
+  const { isQuiet } = props;
   const [editor] = useLexicalComposerContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [blockType, setBlockType] = useState("paragraph");
-  const [selectedElementKey, setSelectedElementKey] = useState<null | string>(null);
+  const [selectedElementKey, setSelectedElementKey] = useState<null | string>(
+    null
+  );
   let [selectedCodeLanguage, setSelectedCodeLanguage] = useState(
-    new Set(['js'])
+    new Set(["js"])
   );
   let [selectedBlockType, setSelectedBlockType] = useState(
     new Set(["paragraph"])
@@ -118,8 +117,9 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
     []
   );
 
-    let [selectedFormatOptions, setSelectedFormatOptions] = useState<any>(new Set());
-
+  let [selectedFormatOptions, setSelectedFormatOptions] = useState<any>(
+    new Set()
+  );
 
   let alignmentOptions = useMemo(
     () => [
@@ -158,10 +158,14 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             : element.getType();
           setBlockType(type);
           if ($isCodeNode(element)) {
-            let nextLanguage = codeLanguageOptions.find(lang => lang.key === element.getLanguage()) || codeLanguageOptions.find(lang => lang.key === getDefaultCodeLanguage()) ;
-            setSelectedCodeLanguage(
-              new Set([nextLanguage!.key])
-            );
+            let nextLanguage =
+              codeLanguageOptions.find(
+                (lang) => lang.key === element.getLanguage()
+              ) ||
+              codeLanguageOptions.find(
+                (lang) => lang.key === getDefaultCodeLanguage()
+              );
+            setSelectedCodeLanguage(new Set([nextLanguage!.key]));
           }
         }
       }
@@ -367,7 +371,9 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
           ...(canUndo ? [] : ["undo"]),
           ...(canRedo ? [] : ["redo"]),
         ]}
-        onAction={(key) => editor.dispatchCommand(HISTORY_COMMANDS[key], undefined)}
+        onAction={(key) =>
+          editor.dispatchCommand(HISTORY_COMMANDS[key], undefined)
+        }
       >
         <Item key="undo" textValue="Undo">
           <Undo />
@@ -453,7 +459,9 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onSelectionChange={(keys) => {
               let pressedKey = [
                 ...[...keys].filter((key) => !selectedFormatOptions.has(key)),
-                ...[...selectedFormatOptions].filter((key) => !new Set([...keys]).has(key)),
+                ...[...selectedFormatOptions].filter(
+                  (key) => !new Set([...keys]).has(key)
+                ),
               ][0];
               if (pressedKey === "link") {
                 insertLink();
@@ -485,7 +493,10 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             density="compact"
             items={alignmentOptions}
             onSelectionChange={(keys) =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, [...keys as any][0].toString() as ElementFormatType)
+              editor.dispatchCommand(
+                FORMAT_ELEMENT_COMMAND,
+                [...(keys as any)][0].toString() as ElementFormatType
+              )
             }
           >
             {(item) => (
