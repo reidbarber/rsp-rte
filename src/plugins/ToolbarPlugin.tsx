@@ -117,7 +117,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
     []
   );
 
-  let [selectedFormatOptions, setSelectedFormatOptions] = useState<any>(
+  let [selectedFormatOptions, setSelectedFormatOptions] = useState<Set<React.Key>>(
     new Set()
   );
 
@@ -462,7 +462,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
                 ...[...selectedFormatOptions].filter(
                   (key) => !new Set([...keys]).has(key)
                 ),
-              ][0];
+              ][0] as TextFormatType | "link";
               if (pressedKey === "link") {
                 insertLink();
               } else {
@@ -495,7 +495,7 @@ export default function ToolbarPlugin(props: ToolbarPluginProps) {
             onSelectionChange={(keys) =>
               editor.dispatchCommand(
                 FORMAT_ELEMENT_COMMAND,
-                [...(keys as any)][0].toString() as ElementFormatType
+                [...(keys)][0].toString() as ElementFormatType
               )
             }
           >
