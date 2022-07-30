@@ -17,7 +17,7 @@ import { TRANSFORMERS } from "@lexical/markdown";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-import ExampleTheme from "./themes/ExampleTheme";
+import ExampleTheme from "./themes/rspTheme";
 
 import {View} from '@adobe/react-spectrum';
 
@@ -43,7 +43,7 @@ const editorConfig = {
 };
 
 function Placeholder() {
-  return <div className="editor-placeholder">Enter some rich text...</div>;
+  return <div className="react-spectrum-RichTextEditor-placeholder">Enter some rich text...</div>;
 }
 
 // TODO: likely similar props to TextArea
@@ -58,9 +58,9 @@ export default function RichTextEditor(props: RichTextEditorProps) {
     <LexicalComposer initialConfig={editorConfig}>
       <View padding="size-200" position="relative">
         <ToolbarPlugin isQuiet={isQuiet} />
-        <View position="relative" UNSAFE_className={`editor-inner ${isQuiet ? 'is-quiet' : ''}`}>
+        <View position="relative" UNSAFE_className={`react-spectrum-RichTextEditor-inner ${isQuiet ? 'is-quiet' : ''}`}>
           <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
+            contentEditable={<ContentEditable className="react-spectrum-RichTextEditor-input" />}
             placeholder={<Placeholder />}
           />
           <HistoryPlugin />
